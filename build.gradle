@@ -1,0 +1,115 @@
+plugins {
+    id("com.github.johnrengelman.shadow") version "7.1.2"
+    id("io.micronaut.application") version "3.6.3"
+    id("com.google.cloud.tools.jib") version "3.2.1"
+    id("io.micronaut.test-resources") version "3.6.3"
+    id('pl.allegro.tech.build.axion-release') version "1.13.6"
+}
+
+scmVersion {
+    versionCreator System.getenv('USE_BRANCH_VERSION') != null ? 'versionWithBranch' : 'simple'
+    versionIncrementer 'incrementMinor' // default=incrementPatch
+    ignoreUncommittedChanges = false
+    branchVersionIncrementer = [
+            'hotfix/.*'  : { c -> c.currentVersion.incrementPatchVersion() },
+            'release/.*' : 'incrementMinorIfNotOnRelease'
+    ]
+    hooks {
+        pre 'fileUpdate', [file: 'README.md', pattern: {v, c -> /version: $v/}, replacement: {v, c -> "vers/ion: $v"}]
+        pre 'commit'
+    }
+    localOnly = true
+}
+
+version = scmVersion.version
+group = "io.kangov.taxii.server"
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+
+    annotationProcessor("org.immutables:value:2.9.2")
+    annotationProcessor("io.micronaut:micronaut-validation")
+    annotationProcessor("io.micronaut:micronaut-http-validation")
+
+    implementation("io.micronaut:micronaut-http-client")
+    implementation("io.micronaut:micronaut-validation")
+    implementation("io.micronaut:micronaut-jackson-databind")
+    implementation("io.micronaut.reactor:micronaut-reactor")
+    implementation("jakarta.annotation:jakarta.annotation-api")
+    implementation("org.immutables:value:2.9.2")
+
+    runtimeOnly("ch.qos.logback:logback-classic")
+
+    compileOnly("org.graalvm.nativeimage:svm")
+
+    testImplementation("org.testcontainers:junit-jupiter")
+    testImplementation("org.testcontainers:testcontainers")
+    testImplementation("org.assertj:assertj-core")
+
+//    annotationProcessor("io.micronaut.data:micronaut-data-processor")
+//    annotationProcessor("org.immutables:value:2.9.2")
+//    annotationProcessor("io.micronaut:micronaut-http-validation")
+//    annotationProcessor("io.micronaut.openapi:micronaut-openapi")
+//    annotationProcessor("io.micronaut.security:micronaut-security-annotations")
+//
+//    implementation("io.micronaut:micronaut-http-client")
+//    implementation("io.micronaut:micronaut-jackson-databind")
+//    implementation("io.micronaut.data:micronaut-data-jdbc")
+//    implementation("io.micronaut.sql:micronaut-jdbc-hikari")
+//    implementation("io.micronaut.flyway:micronaut-flyway")
+//    implementation("io.micronaut.security:micronaut-security-jwt")
+//    implementation("io.micronaut.security:micronaut-security-oauth2")
+//    implementation("io.micronaut.reactor:micronaut-reactor")
+//    implementation("io.swagger.core.v3:swagger-annotations")
+//    implementation("jakarta.annotation:jakarta.annotation-api")
+//    implementation("org.immutables:value:2.9.2")
+//
+//    runtimeOnly("ch.qos.logback:logback-classic")
+//    runtimeOnly("org.postgresql:postgresql")
+//
+//    testImplementation("org.assertj:assertj-core")
+//    testImplementation("org.testcontainers:junit-jupiter")
+//    testImplementation("org.testcontainers:postgresql")
+//    testImplementation("org.testcontainers:testcontainers")
+//
+//    compileOnly("org.graalvm.nativeimage:svm")
+//
+//    implementation("io.micronaut:micronaut-validation")
+
+}
+
+
+application {
+    mainClass.set("io.kangov.taxii.server.Application")
+}
+java {
+    sourceCompatibility = JavaVersion.toVersion("17")
+    targetCompatibility = JavaVersion.toVersion("17")
+}
+
+tasks {
+    jib {
+        to {
+            image = "gcr.io/myapp/jib-image"
+        }
+    }
+}
+graalvmNative.toolchainDetection = false
+micronaut {
+    runtime("netty")
+    testRuntime("junit5")
+    processing {
+        incremental(true)
+        annotations("io.kangov.taxii.server.*")
+    }
+}
+
+//compileJava {
+//    options.compilerArgs += '-proc:only'
+//}
+
+
+

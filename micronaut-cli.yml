@@ -1,0 +1,6 @@
+applicationType: default
+defaultPackage: org.belldj
+testFramework: junit
+sourceLanguage: java
+buildTool: gradle
+features: [annotation-api, app-name, assertj, data, data-jdbc, flyway, graalvm, gradle, http-client, jackson-databind, java, java-application, jdbc-hikari, jib, junit, logback, micronaut-build, netty-server, openapi, postgres, readme, security-annotations, security-jwt, shade, test-resources, testcontainers, yaml]
