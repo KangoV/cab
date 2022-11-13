@@ -43,7 +43,7 @@ import java.util.function.UnaryOperator;
 @JsonDeserialize(as = DiscoveryImpl.class)
 @Value.Immutable
 @ImmutableStyle
-//@Introspected
+@Introspected
 public interface Discovery {
 
     /**
