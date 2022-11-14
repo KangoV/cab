@@ -16,3 +16,17 @@ jackson:
     readEnumsUsingToString: true
     failOnUnknownProperties: false
     failOnInvalidSubtype: false
+
+taxii:
+  title: Taxii Server
+  description: My taxii server
+  contact:
+    name: Darren
+    email: my.domain.com
+  roots:
+    name: default
+    description: The default api root
+    domain: localhost
+    path: /default
+
+

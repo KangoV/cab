@@ -33,11 +33,13 @@ dependencies {
     annotationProcessor("org.immutables:value:2.9.2")
     annotationProcessor("io.micronaut:micronaut-validation")
     annotationProcessor("io.micronaut:micronaut-http-validation")
+    annotationProcessor("io.micronaut.security:micronaut-security-annotations")
 
     implementation("io.micronaut:micronaut-http-client")
     implementation("io.micronaut:micronaut-validation")
     implementation("io.micronaut:micronaut-jackson-databind")
     implementation("io.micronaut.reactor:micronaut-reactor")
+    implementation("io.micronaut.security:micronaut-security-jwt")
     implementation("jakarta.annotation:jakarta.annotation-api")
     implementation("org.immutables:value:2.9.2")
 
