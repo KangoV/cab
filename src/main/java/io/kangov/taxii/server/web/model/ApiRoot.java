@@ -20,6 +20,7 @@ import io.micronaut.core.annotation.*;
 import org.immutables.value.Value;
 
 import java.util.*;
+import java.util.function.UnaryOperator;
 
 /**
  * The api-root resource contains general information about the API Root, such as a human-readable title and
@@ -35,28 +36,28 @@ import java.util.*;
 @JsonTypeName("api-root")
 @JsonSerialize(as = ApiRootImpl.class)
 @JsonDeserialize(as = ApiRootImpl.class)
-@Introspected
+//@Introspected
 @Value.Immutable
 @ImmutableStyle
 public interface ApiRoot {
 
-//    /**
-//     * Exposes the generated builder outside this package
-//     * <p>
-//     * While the generated implementation (and consequently its builder) is not
-//     * visible outside this package, this builder inherits and exposes all public
-//     * methods defined on the generated implementation's Builder class.
-//     */
-////    @Introspected
-//    class Builder extends ApiRootImpl.Builder {}
-//
-//    static ApiRoot create(UnaryOperator<ApiRoot.Builder> spec) { return spec.apply(builder()).build(); }
-//    static ApiRoot createApiRoot(UnaryOperator<ApiRoot.Builder> spec) { return create(spec); }
-//    static ApiRoot.Builder builder() { return new ApiRoot.Builder(); }
-//
-//    default ApiRoot update(UnaryOperator<ApiRoot.Builder> builder) {
-//        return builder.apply(new ApiRoot.Builder()).build();
-//    }
+    /**
+     * Exposes the generated builder outside this package
+     * <p>
+     * While the generated implementation (and consequently its builder) is not
+     * visible outside this package, this builder inherits and exposes all public
+     * methods defined on the generated implementation's Builder class.
+     */
+//    @Introspected
+    class Builder extends ApiRootImpl.Builder {}
+
+    static ApiRoot create(UnaryOperator<Builder> spec) { return spec.apply(builder()).build(); }
+    static ApiRoot createApiRoot(UnaryOperator<ApiRoot.Builder> spec) { return create(spec); }
+    static ApiRoot.Builder builder() { return new ApiRoot.Builder(); }
+
+    default ApiRoot update(UnaryOperator<ApiRoot.Builder> builder) {
+        return builder.apply(new ApiRoot.Builder()).build();
+    }
 
     String JSON_PROPERTY_TITLE = "title";
     String JSON_PROPERTY_DESCRIPTION = "description";

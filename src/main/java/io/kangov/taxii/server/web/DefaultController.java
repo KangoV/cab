@@ -12,7 +12,8 @@
 
 package io.kangov.taxii.server.web;
 
-import io.kangov.taxii.server.domain.Taxii;
+import io.kangov.taxii.server.domain.Root;
+import io.kangov.taxii.server.domain.TaxiiService;
 import io.kangov.taxii.server.web.model.Status;
 import io.kangov.taxii.server.web.model.*;
 import io.micronaut.core.annotation.*;
@@ -31,10 +32,10 @@ import java.util.List;
 @Controller
 public class DefaultController {
 
-    private final Taxii taxii;
+    private final TaxiiService taxii;
 
     @Inject
-    public DefaultController(Taxii taxii) {this.taxii = taxii;}
+    public DefaultController(TaxiiService taxii) {this.taxii = taxii;}
 
     /**
      * Add a new object to a specific collection
@@ -104,10 +105,15 @@ public class DefaultController {
     ) {
         var si = taxii.getServerInfo();
         return Mono.just(
-          Discovery.create(s -> s
-            .title(si.getTitle())
-            .description(si.getDescription())
-          ));
+            Discovery.create(s -> s
+                .title(si.getTitle())
+                .description(si.getDescription())
+                .contact(si.getContact().asString())
+                .addAllApiRoots(si.getApiRoots().stream()
+                    .map(Root::asString)
+                    .map(root -> "http://" + root)
+                    .toList())
+            ));
     }
 
     /**

@@ -17,11 +17,11 @@ public interface Server {
    * visible outside this package, this builder inherits and exposes all public
    * methods defined on the generated implementation's Builder class.
    */
-  class Builder extends ServerInfoImpl.Builder {
-    Builder contact(UnaryOperator<Contact.Builder> func) {
+  class Builder extends ServerImpl.Builder {
+    public Builder contact(UnaryOperator<Contact.Builder> func) {
       return contact(func.apply(Contact.builder()).build());
     }
-    Builder addRoot(UnaryOperator<Root.Builder> func) {
+    public Builder addRoot(UnaryOperator<Root.Builder> func) {
       return addApiRoot(func.apply(Root.builder()).build());
     }
   }

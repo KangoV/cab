@@ -16,16 +16,21 @@ public interface Contact {
    * visible outside this package, this builder inherits and exposes all public
    * methods defined on the generated implementation's Builder class.
    */
-  class Builder extends ServerContactImpl.Builder {}
+  class Builder extends ContactImpl.Builder {}
 
   static Contact create(UnaryOperator<Builder> spec) { return spec.apply(builder()).build(); }
-  static Contact createContact(UnaryOperator<Contact.Builder> spec) { return create(spec); }
-  static Contact.Builder builder() { return new Contact.Builder(); }
+  static Contact createContact(UnaryOperator<Builder> spec) { return create(spec); }
+  static Builder builder() { return new Builder(); }
 
-  default Contact update(UnaryOperator<Contact.Builder> builder) {
+  default Contact update(UnaryOperator<Builder> builder) {
     return builder.apply(builder().from(this)).build();
   }
 
   String getName();
   String getEmail();
+
+  default String asString() {
+    return getName() + " - " + getEmail();
+  }
+
 }

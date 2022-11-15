@@ -17,8 +17,8 @@ public interface Root {
    * visible outside this package, this builder inherits and exposes all public
    * methods defined on the generated implementation's Builder class.
    */
-  class Builder extends RootInfoImpl.Builder {
-    Builder isDefault() {
+  class Builder extends RootImpl.Builder {
+    public Builder isDefault() {
       return isDefault(true);
     }
   }
@@ -42,5 +42,9 @@ public interface Root {
   String getPath();
   Set<String> getVersions();
   int getMaxContentLength();
+
+  default String asString() {
+    return getDomain() + getPath();
+  }
 
 }
