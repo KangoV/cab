@@ -30,9 +30,10 @@ repositories {
 
 dependencies {
 
-    annotationProcessor("org.immutables:value:2.9.2")
+    annotationProcessor("io.micronaut.data:micronaut-data-processor")
     annotationProcessor("io.micronaut:micronaut-validation")
     annotationProcessor("io.micronaut:micronaut-http-validation")
+    annotationProcessor("org.immutables:value:2.9.2")
     annotationProcessor("io.micronaut.security:micronaut-security-annotations")
 
     implementation("io.micronaut:micronaut-http-client")
@@ -40,8 +41,12 @@ dependencies {
     implementation("io.micronaut:micronaut-jackson-databind")
     implementation("io.micronaut.reactor:micronaut-reactor")
     implementation("io.micronaut.security:micronaut-security-jwt")
+    implementation("io.micronaut.data:micronaut-data-jdbc")
+    implementation("io.micronaut.flyway:micronaut-flyway")
+    implementation("io.micronaut.sql:micronaut-jdbc-hikari")
     implementation("jakarta.annotation:jakarta.annotation-api")
     implementation("org.immutables:value:2.9.2")
+    implementation('org.postgresql:postgresql:42.2.23')
 
     runtimeOnly("ch.qos.logback:logback-classic")
 
@@ -50,6 +55,9 @@ dependencies {
     testImplementation("org.testcontainers:junit-jupiter")
     testImplementation("org.testcontainers:testcontainers")
     testImplementation("org.assertj:assertj-core")
+
+    testRuntimeOnly("org.testcontainers:postgresql")
+    testRuntimeOnly("org.postgresql:postgresql:42.2.23")
 
 //    annotationProcessor("io.micronaut.data:micronaut-data-processor")
 //    annotationProcessor("org.immutables:value:2.9.2")

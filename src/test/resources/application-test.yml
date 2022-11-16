@@ -2,3 +2,22 @@
 micronaut:
   security:
     enabled: false
+
+datasources:
+  default:
+    url: jdbc:tc:postgresql:14.3-alpine://localhost/taxii?TC_DAEMON=true
+    driverClassName: org.testcontainers.jdbc.ContainerDatabaseDriver
+    username: taxii
+    password: taxii
+    dialect: POSTGRES
+
+testcontainers:
+  reuse:
+    enable: false
+
+flyway:
+  enabled: true
+  datasources:
+    default:
+      locations: classpath:db/migration
+

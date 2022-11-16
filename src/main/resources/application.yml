@@ -1,12 +1,25 @@
 
 micronaut:
   application:
-    name: openapi-micronaut
+    name: taxii
   server:
     port: 8080
     context-path: "/"
   security:
     # authentication: bearer | cookie | session | idtoken
+
+endpoints:
+  health:
+    details-visible: ANONYMOUS
+
+datasources:
+  default:
+    url: ${DB_URL:`jdbc:postgresql://localhost/taxii`}
+    driverClassName: org.postgresql.Driver
+    username: ${DB_USERNAME:`taxii`}
+    password: ${DB_PASSWORD:`taxii`}
+    schema-generate: NONE
+    dialect: POSTGRES
 
 jackson:
   serialization:
@@ -16,6 +29,11 @@ jackson:
     readEnumsUsingToString: true
     failOnUnknownProperties: false
     failOnInvalidSubtype: false
+
+flyway:
+  datasources:
+    default:
+      enabled: true
 
 taxii:
   title: Taxii Server
